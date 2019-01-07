@@ -191,4 +191,23 @@ Git 명령을 사용하지 않고 단순히 워킹 디렉터리에서 파일을 
 
 여러 개의 파일이나 디렉토리를 삭제하는 경우 file-glob 패턴을 사용한다.
 
-`$ gir rm log/\*.log`
+`$ git rm log/\*.log`
+
+#### 파일 이름 변경하기
+
+`$ git mv file_from file_to`
+
+#### 커밋 히스토리 조회하기
+
+`$ git log`
+
+옵션
+-p: 각 커밋의 diff 결과를 보여준다.
+-n: 최근 n 개의 결과만 보여준다.
+--stat: 각 커밋의 통계 정보
+--pretty=oneline: 각 커밋을 한 라인으로 보여준다.
+--pretty=short(, full, fuller): 정보를 조금씩 가감하여 보여준다.
+
+나만의 포맷으로 결과를 출력하고 싶을때
+
+`$ git log --pretty=format:"%h - %an, %ar : %s"`
