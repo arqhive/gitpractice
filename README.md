@@ -297,3 +297,45 @@ master 브랜치를 origin 서버에 push (다시 말하지만 clone 하면 보�
     $ git remote remove paul
     $ git remote
     origin
+
+### 태그
+
+#### 태그 조회하기
+
+`$ git tag`
+
+명령으로 이미 만들어진 태그가 있는지 확인할 수 있다.
+
+-l "<pattern>" 으로 검색 패턴을 사용하여 태그를 검색할 수 있다.
+
+#### 태그 붙이기
+
+Git의 태그는 Lightweight 태그와 Annotated 태그로 두 종류가 있다.
+
+Lightweight 태그는 브랜치와 비슷한데 브랜치처럼 가리키는 지점을 최신 커밋으로 이동시키지 않는다. 단순히 특정 커밋에 대한 포인터일 뿐이다.
+
+한편 Annotated 태그는 Git 데이터베이스에 태그를 만든 사람의 이름, 이메일과 태그를 만든 날짜, 그리고 태그 메세지도 저장한다. 일반적으로 Annotated 태그를 만들어 이 모든 정보를 사용할 수 있또록 하는 것이 좋다. 하지만 임시로 생성하는 태그거나 이러한 정보를 유지할 필요가 없는 경우에는 Lightweight 태그를 사용할 수도 있다.
+
+#### Annotated 태그
+
+`$ git tag -a <version> -m "message"`
+
+-m 옵션으로 메세지를 함께 저장할 수 있다.
+
+git show 명령으로 태그 정보과 커밋 정보를 모두 확인할 수 있다.
+
+#### Lightweight 태그
+
+Lightweight 태그는 기본적으로 파일에 커밋 체크섬을 저장하는 것뿐이다. 다른 정보는 저장하지 않는다 -a -s -m과 같은 옵션을 사용하지 않는다.
+
+#### 나중에 태그하기
+
+`$ git tag -a v1.2 <checksum>`
+
+checksum을 모두 사용할 필요는 없다.
+
+#### 태그 공유하기
+
+git push 명령은 자동으로 리모트 서버에 태그를 전송하지 않는다.
+
+`git push origin [태그 이름]`을 실행한다.
