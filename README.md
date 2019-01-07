@@ -1,2 +1,108 @@
 # gitpractice
 Git 자습 레포지터리
+Linux Mint 운영체제에서 진행한다.
+모든 명령은 CLI 환경에서 진행한다.
+
+## 시작하기
+
+#### Git 설정하기
+
+'git config’라는 도구로 설정 내용을 확인하고 변경할 수 있다. Git은 이 설정에 따라 동작한다. 이때 사용하는 설정 파일은 세 가지나 된다.
+1. /etc/gitconfig 파일: 시스템의 모든 사용자와 모든 저장소에 적용되는 설정이다. git config --system
+옵션으로 이 파일을 읽고 쓸 수 있다.
+2. ~/.gitconfig, ~/.config/git/config 파일: 특정 사용자에게만 적용되는 설정이다. git config
+--global 옵션으로 이 파일을 읽고 쓸 수 있다.
+3. .git/config : 이 파일은 Git 디렉토리에 있고 특정 저장소(혹은 현재 작업 중인 프로젝트)에만 적용된다.
+각 설정은 역순으로 우선시 된다. 그래서 .git/config 가 /etc/gitconfig 보다 우선한다.
+
+#### 사용자 정보
+
+`$ git config --global user.name "Gyu Young Hwang"`
+`$ git config --global user.email example@example.com`
+
+--global 옵션으로 설정하는 경우 딱 한번만 하면 된다. 해당 시스템에서 해당 사용자가 사용할 때는
+이 정보를 사용한다. 만약 프로젝트마다 다른 이름과 이메일 주소를 사용하고 싶으면 --global 옵션을 빼고 명령을 실행한다.
+
+
+#### 설정 확인
+
+`$ git config --list`
+설정한 모든 것을 보여준다.
+
+Git은 같은 키를 여러 파일(/etc/gitconfig와 ~/.gitconfig 같은) 에서 읽기 떄문에 같은 키가 여러 개 있을 수도 있다. 그러면 Git은 나중 값을 사용한다.
+
+`$ git config <key>`
+해당 명령으로 Git이 특정 Key에 대해 어떤 값을 사용하는지 확인할 수 있다.
+
+
+#### 도움말 보기
+
+    git help <verb>
+    git <verb> --help
+    man git-<verb>
+
+
+## Git의 기초
+
+### Git 저장소 만들기
+
+#### 기존 프로젝트를 Git 저장소로 만들고 싶은경우
+
+해당 디렉토리로 이동후 아래와 같은 명령을 실행한다.
+
+`$ git init`
+
+이 명령은 .git 이라는 하위 디렉토리를 만든다. .git 디렉토리에는 저장소에 필요한 뼈대 파일(Skeleton)이 들어 있다. 이 명령만으로는 아직 프로젝트의 어떤 파일도 관리하지 않는다.
+
+#### 기존 저장소를 Clone 하기
+
+다른 프로젝트에 참여하려거나 Git 저장소를 복사하고 싶을 때 git clone 명령을 사용한다.
+
+git clone [url] 명령으로 저장소를 클론한다. 예를 들어 libgit2의 소스코드를 클론하려면
+
+`$ git clone https://github.com/libgit2/libgit2`
+
+**TIP!** [url]뒤에 파라미터를 주게 된다면 다른 디렉토리명으로 clone 할 수 있다.
+
+#### 파일의 상태 확인하기
+
+` $ git status`
+해당 명령으로 파일의 상태를 확인 할 수 있다.
+
+TEST라는 파일을 하나 생성해 본 뒤 git status 명령을 실행해 보자.
+
+결과를 확인해 보면 TEST는 Untracked files 부분에 속해 있는데 TEST파일이 Untracked(추적되지 않는) 상태라는 것을 말한다. Git은 Untracked 파일을 아직 스냅샷(커밋)에 넣어지지 않은 파일이라고 본다. 파일이 Tracked 상태가 되기 전까지는 Git은 절대 그 파일을 커밋하지 않는다. 이제 해당 파일을 Tracked(추적되는) 상태로 만든다.
+
+#### 파일을 새로 추적하기
+
+git add 명령으로 파일을 새로 추적할 수 있다.
+
+`$ git add TEST`
+
+git status 명령을 다시 실행하면 TEST 파일이 Tracked 상태이면서 커밋에 추가될 Staged 상태라는 것을 확인할 수 있다.
+
+"Changes to be committed"에 들어 있는 파일은 Staged 상태라는 것을 의미한다. 커밋하면 git add를 실행한 시점의 파일이 커밋되어 저장소 히스토리에 남는다.
+
+#### Modified(수정된) 상태의 파일을 Stage 하기
+
+Modified라는 이름의 파일을 하나 생성한다. 그 후 git add Modified 로 Modified를 Tracked 상태에 놓는다. 이제 Modified를 수정 한 뒤 git status를 실행해 보자.
+
+이 Modified 파일은 'Changes not staged for commit'에 있다. 이것은 수정한 파일이 Tracked 상태이지만 아직 Staged 상태는 아니라는 것이다. Staged 상태로 만들려면 git add 명령을 실행해야 한다. git add 명령은 파일을 새로 추적할 때도 사용하고, 수정한 파일을 Staged 상태로 만들 때도 사용한다. Merge 할 때 충돌난 상태의 파일을 Resolve 상태로 만들때도 사용한다. add의 의미는 프로젝트에 파일을 추가한다기 보다는 다음 커밋에 추가한다고 받아들이는게 좋다. git add 명령으로 Modified 파일을 Staged 상태로 만들기 git status명령으로 결과를 확인해보자.
+
+이후 다시 Modified를 수정하고 git status명령을 실행하게 되면 Modified가 Staged 상태이면 동시에 Unstaged 상태로 나온다. 왜 이런일이 발생할까? Git은 git add 명령을 실행한 시점을 Staged 상태로 만들며 이후 commit시 add 명령을 실행한 시점으로 commit하게 된다. 그러니까 add 명령을 실행한 후에 또 파일을 수정했다면 다시 add 명령으로 최신 버전을 Staged 상태로 만들어야 한다.
+
+#### 파일 상태를 짤막하게 확인하기
+git status 명령을 간단하게 보여주는 옵션이 있다.
+
+`$ git status -s 혹은 git status --short`
+
+다음과 같은 결과를 확인 할 수 있다. (예제)
+
+    $ git status -s
+    M README
+    MM Rakefile
+    A lib/git.rb
+    M lib/simplegit.rb
+    ?? LICENSE.txt
+
+아직 추적하지 않는 새 파일 앞에는 ?? 표시가 붙는다. Staged 상태로 추가한 파일 중 새로 생성한 파일 앞에는 A 표시가, 수정한 파일 앞에는 M 표시가 붙는다. 위 명령의 결과에서 상태정보 컬럼에는 두 가지 정보를 보여준다. 왼쪽에는 Staging Area에서의 상태를, 오른쪽에는 Working Tree에서의 상태를 표시한다. README 파일 같은 경우 내용을 변경했지만 아직 Staged 상태로 추가하지는 않았다. lib/simplegit.rb 파일은 내용을 변경하고 Staged 상태로 추가까지 한 상태이다. 위 결과에서 차이점을 비교해보자. Rakefile 은 변경하고 Staged 상태로 추가한 후 또 내용을 변경해서 Staged 이면서 Unstaged 상태인 파일이다.
