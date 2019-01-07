@@ -227,3 +227,13 @@ Git 명령을 사용하지 않고 단순히 워킹 디렉터리에서 파일을 
     $ git commit -m 'initial commit'
     $ git add forgotten_file
     $ git commit --amend
+
+#### 파일을 Unstage로 변경하기
+
+다음은 Staging Area와 워킹 디렉토리 사이를 넘나드는 방법을 설명한다. 두 영역의 상태를 확인할 때마다 변경된 상태를 되돌리는 방법을 알려주기 때문에 매우 편리하다. 예를 들어 파일을 두 개 수정하고서 따로따로 커밋하려고 했지만, 실수로 git add * 라고 실행해 버렸다. 두 파일 모두 Staging Area에 들어 있다. 이제 둘 중 하나를 어떻게 꺼낼까?
+
+`$ git reset HEAD <file> ....`
+
+이 명령으로 파일을 Unstaged상태로 변경할 수 있다.
+
+git reset 명령은 매우 위험하다. --hard 옵션과 함께 사용하면 더욱 위험하다. 하지만 위에서 처럼 옵션 없이 사용하면 워킹 디렉토리의 파일은 건드리지 않는다.
