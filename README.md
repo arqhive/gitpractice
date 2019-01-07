@@ -339,3 +339,18 @@ checksum을 모두 사용할 필요는 없다.
 git push 명령은 자동으로 리모트 서버에 태그를 전송하지 않는다.
 
 `git push origin [태그 이름]`을 실행한다.
+
+한 번에 태그를 여러개 push 하고 싶으면 --tags 옵션을 추가하여 git push 명령을 실행한다.
+
+`$ git push origin --tags`
+
+### Git Alias
+
+git config를 사용하여 각 명령의 Alias를 쉽게 만들 수 있다.
+
+예)
+
+    $ git config --global alias.co checkout
+    $ git config --global alias.br branch
+    $ git config --global alias.ci commit
+    $ git config --global alias.st status
